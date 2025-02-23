@@ -11,7 +11,7 @@ services:
   115Linux:                         # 服务名称
     image: ikimi/115linux:latest    # 镜像加速（image: docker.1panel.live/ikimi/115linux:latest）
     container_name: 115Linux
-    # user: "0:0"                   # 以 root 用户身份运行
+    user: "0:0"                     # 以 root 用户身份运行
     volumes:
       - '/:/opt/Downloads'          # 传输目录(说明：/为系统根目录，/volume1为存储盘1的根目录)
       # - './115:/etc/115'          # 数据目录(说明：.为项目配置所在目录，需手动创建115文件夹)
