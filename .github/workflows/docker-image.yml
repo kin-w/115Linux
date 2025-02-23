@@ -1,0 +1,40 @@
+# 工作流的名称
+name: build
+
+# 触发工作流的事件
+on:
+  # 使用 workflow_dispatch 事件类型，允许手动触发工作流
+  workflow_dispatch:
+
+# 定义工作流中的作业
+jobs:
+  # 定义一个名为 docker 的作业
+  docker:
+    # 指定作业运行的环境，这里使用最新的 Ubuntu 环境
+    runs-on: ubuntu-latest
+    # 定义作业所需的权限
+    permissions:
+      id-token: write          # 允许写入 ID 令牌
+      packages: write          # 允许写入包
+      contents: read           # 允许读取内容
+      attestations: write      # 允许写入证明
+
+    # 定义作业的步骤
+    steps:
+      # 设置 Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3  # 使用 Docker 官方的 setup-buildx-action 动作，版本 v3
+
+      # 登录 Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3  # 使用 Docker 官方的 login-action 动作，版本 v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  # 从仓库秘密中获取 Docker Hub 用户名
+          password: ${{ secrets.DOCKERHUB_TOKEN }}     # 从仓库秘密中获取 Docker Hub 令牌
+
+      # 构建并推送正式版本
+      - name: Release and push
+        uses: docker/build-push-action@v6  # 使用 Docker 官方的 build-push-action 动作，版本 v6
+        with:
+          push: true  # 推送构建的镜像
+          tags: docker.io/ikimi/115linux:latest  # 指定镜像标签
