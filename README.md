@@ -9,16 +9,15 @@ docker pull ikimi/115linux:latest
 #### Docker-Compose.yaml
 ```yaml
 services:
-  115Linux:                        # 服务名称
-    image: ikimi/115linux:latest   # latest
+  115Linux:                         # 服务名称
+    image: ikimi/115linux:latest    # latest
     container_name: 115Linux
-    user: "0:0"                     # 以 root 用户身份运行
+    # user: "0:0"                   # 以 root 用户身份运行
     volumes:
-      - '/:/opt/Downloads'          #传输目录
-      # - './115:/etc/115'          #数据目录
+      - '/:/opt/Downloads'          # 传输目录(说明：/为系统根目录，/volume1为存储盘1的根目录)
+      # - './115:/etc/115'          # 数据目录(说明：.为项目配置所在目录，需手动创建115文件夹)
     ports:
       - '1150:1150'                 # WEB访问端口后加/vnc.html即VNC访问
-      # - '1152:1152'
     environment:
       - PASSWORD=0                  # VNC密码(必须项)
       - DISPLAY_WIDTH=1920          # 显示宽度
@@ -33,7 +32,7 @@ services:
 
 #### SSH运行命令(紧凑)
 ```shell
-sudo docker run -d --name 115Linux --user 0:0 -v /:/opt/Downloads -p 1150:1150 -p 1152:1152 -e PASSWORD=0 -e DISPLAY_WIDTH=1920 -e DISPLAY_HEIGHT=1080 -e TZ=Asia/Shanghai -e CID={CID} -e KID={KID} -e SEID={SEID} -e UID={UID} ikimi/115linux:latest
+sudo docker run -d --name 115Linux --user 0:0 -v /:/opt/Downloads -p 1150:1150 -e PASSWORD=0 -e DISPLAY_WIDTH=1920 -e DISPLAY_HEIGHT=1080 -e TZ=Asia/Shanghai -e CID={CID} -e KID={KID} -e SEID={SEID} -e UID={UID} ikimi/115linux:latest
 ```
 
 #### SSH运行命令(多行)
@@ -43,7 +42,6 @@ sudo docker run -d \
   --user 0:0 \
   -v /:/opt/Downloads \
   -p 1150:1150 \
-  -p 1152:1152 \
   -e PASSWORD=0 \
   -e DISPLAY_WIDTH=1920 \
   -e DISPLAY_HEIGHT=1080 \
@@ -82,11 +80,10 @@ sudo docker run -d \
 
 |路径|描述|必须|
 |:---------:|:---------:|:---------:|
-|/etc/115|数据目录|╳|
 |/opt/Downloads|传输目录|╳|
+|/etc/115|数据目录|╳|
 
 ### 端口占用
 |端口|描述|必须|
 |:---------:|:---------:|:---------:|
 |1150|WEB端口|◯|
-|1152|VNC端口|╳|
