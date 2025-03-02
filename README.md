@@ -1,4 +1,4 @@
-# Docker - 115浏览器Linux版_v35.6.0.3
+# Docker - 115浏览器Linux版_v35.8.0.1
 ![预览图](https://raw.githubusercontent.com/kin-w/115Linux/refs/heads/main/image.jpg)
 
 ### 镜像拉取命令（镜像加速，如不需要可删除 docker.1panel.live/）
