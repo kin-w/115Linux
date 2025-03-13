@@ -1,47 +1,38 @@
 #!/bin/bash
 
-# Ê¹ÓÃ sed ÃüÁîÔÚ /usr/local/115Cookie/worker.js ÎÄ¼þµÄ¿ªÍ·²åÈë CID¡¢SEID¡¢UID ºÍ KID µÄ¶¨Òå
+# åœ¨ worker.js æ–‡ä»¶çš„ç¬¬ä¸€è¡Œæ’å…¥ CIDã€SEIDã€UID å’Œ KID çš„çŽ¯å¢ƒå˜é‡å€¼
 sed -i "1s/^/const CID=\"${CID}\"\nconst SEID=\"${SEID}\"\nconst UID=\"${UID}\"\nconst KID=\"${KID}\"\n/" /usr/local/115Cookie/worker.js
 
-# ¼ì²é DISPLAY_WIDTH ÊÇ·ñÎª¿Õ£¬Èç¹ûÎª¿ÕÔòÉèÖÃÄ¬ÈÏÖµ 1920
+# å¦‚æžœ DISPLAY_WIDTH çŽ¯å¢ƒå˜é‡æœªè®¾ç½®ï¼Œåˆ™é»˜è®¤è®¾ç½®ä¸º 1920
 if [ -z "${DISPLAY_WIDTH}" ]; then
     DISPLAY_WIDTH=1920
 fi
 
-# ¼ì²é DISPLAY_HEIGHT ÊÇ·ñÎª¿Õ£¬Èç¹ûÎª¿ÕÔòÉèÖÃÄ¬ÈÏÖµ 1080
+# å¦‚æžœ DISPLAY_HEIGHT çŽ¯å¢ƒå˜é‡æœªè®¾ç½®ï¼Œåˆ™é»˜è®¤è®¾ç½®ä¸º 1080
 if [ -z "${DISPLAY_HEIGHT}" ]; then
     DISPLAY_HEIGHT=1080
 fi
 
-# ´´½¨ ~/.vnc Ä¿Â¼£¬Èç¹û²»´æÔÚÔò´´½¨
+# åˆ›å»º .vnc ç›®å½•
 mkdir -p "${HOME}/.vnc"
-
-# ÉèÖÃ VNC ÃÜÂëÎÄ¼þµÄÂ·¾¶
+# è®¾ç½® VNC å¯†ç æ–‡ä»¶çš„è·¯å¾„
 export PASSWD_PATH="${HOME}/.vnc/passwd"
-
-# Ê¹ÓÃ vncpasswd ÃüÁîÉú³É VNC ÃÜÂëÎÄ¼þ
+# å°†çŽ¯å¢ƒå˜é‡ PASSWORD çš„å€¼å†™å…¥ VNC å¯†ç æ–‡ä»¶
 echo ${PASSWORD} | vncpasswd -f > "${PASSWD_PATH}"
-
-# ÉèÖÃ VNC ÃÜÂëÎÄ¼þµÄÈ¨ÏÞÎª 0600£¨Ö»ÓÐËùÓÐÕß¿ÉÒÔ¶ÁÐ´£©
+# è®¾ç½® VNC å¯†ç æ–‡ä»¶çš„æƒé™ä¸ºä»…ç”¨æˆ·å¯è¯»å†™
 chmod 0600 "${HOME}/.vnc/passwd"
 
-# Æô¶¯ noVNC ´úÀí£¬¼àÌý 1150 ¶Ë¿Ú£¬Á¬½Óµ½ localhost:6015
+# å¯åŠ¨ noVNC ä»£ç†ï¼Œç›‘å¬ 1150 ç«¯å£ï¼Œå¹¶è¿žæŽ¥åˆ°æœ¬åœ°çš„ VNC æœåŠ¡ï¼ˆç«¯å£ 6015ï¼‰
 "${NO_VNC_HOME}"/utils/novnc_proxy --vnc localhost:6015 --listen 1150 &
-
-# ´´½¨ VNC ÅäÖÃÎÄ¼þ£¬ÉèÖÃÏÔÊ¾¼¸ºÎ³ß´ç
+# è®¾ç½® VNC æ˜¾ç¤ºçš„åˆ†è¾¨çŽ‡
 echo "geometry=${DISPLAY_WIDTH}x${DISPLAY_HEIGHT}" > ~/.vnc/config
-
-# Æô¶¯ VNC ·þÎñÆ÷£¬¼àÌý :115 ¶Ë¿Ú
+# å¯åŠ¨ VNC æœåŠ¡å™¨ï¼Œç›‘å¬ 115 å·æ˜¾ç¤ºç«¯å£
 /usr/libexec/vncserver :115 &
-
-# µÈ´ý 2 Ãë£¬È·±£ VNC ·þÎñÆ÷Æô¶¯Íê³É
+# ç­‰å¾… 2 ç§’ï¼Œç¡®ä¿ VNC æœåŠ¡å™¨å¯åŠ¨å®Œæˆ
 sleep 2;
-
-# Æô¶¯ pcmanfm ×ÀÃæ¹ÜÀíÆ÷
+# å¯åŠ¨ PCManFM æ–‡ä»¶ç®¡ç†å™¨ä½œä¸ºæ¡Œé¢
 pcmanfm --desktop &
-
-# Æô¶¯ 115 ä¯ÀÀÆ÷
+# å¯åŠ¨ 115 æµè§ˆå™¨
 /usr/local/115Browser/115.sh
-
-# Æô¶¯ tint2 ÈÎÎñÀ¸
-tint2
+# å¯åŠ¨ tint2 ä»»åŠ¡æ ï¼Œè®¾ç½® G_SLICE çŽ¯å¢ƒå˜é‡ä»¥é¿å…å†…å­˜ç¢Žç‰‡é—®é¢˜
+G_SLICE=always-malloc tint2
