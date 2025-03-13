@@ -6,10 +6,11 @@ ENV LANG=zh_CN.UTF-8 \
 # 更新软件包列表并安装必要的工具和库
 RUN apt update \
     && DEBIAN_FRONTEND=noninteractive \
-    && apt install -y wget curl unzip locales locales-all \
+    && apt install -y wget curl unzip locales locales-all fonts-nanum fonts-noto-cjk fonts-noto-cjk-extra fonts-dejavu fonts-liberation fonts-noto fonts-unfonts-core fonts-unfonts-extra \
     && locale-gen zh_CN.UTF-8 \
     && update-locale LANG=zh_CN.UTF-8 \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 桌面环境：在基础镜像上安装桌面管理工具
 FROM base AS desktop
@@ -35,7 +36,7 @@ RUN apt update \
     # 创建 noVNC 和 websockify 的目录结构
     && mkdir -p "${NO_VNC_HOME}/utils/websockify" \
     # 下载并解压 noVNC 和 websockify https://github.com/novnc/noVNC/releases & https://github.com/novnc/websockify/releases
-    && wget -qO- "https://github.com/kin-w/115Linux/releases/download/package/noVNC-1.6.0-beta.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}" \
+    && wget -qO- "https://github.com/kin-w/115Linux/releases/download/package/noVNC-1.6.0.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}" \
     && wget -qO- "https://github.com/kin-w/115Linux/releases/download/package/websockify-0.13.0.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}/utils/websockify" \
     # 使 noVNC 代理可执行
     && chmod +x -v "${NO_VNC_HOME}/utils/novnc_proxy" \
@@ -72,8 +73,6 @@ RUN apt update \
     && rm master.zip \
     # 创建必要的目录并设置权限
     && mkdir -p /opt/Desktop \
-    && mkdir -p /opt/Downloads \
-    && chmod 777 -R /opt/Downloads \
     && cp /usr/share/applications/115Browser.desktop /opt/Desktop \
     && cp /usr/share/applications/pcmanfm.desktop /opt/Desktop \
     && chmod 777 -R /opt \
