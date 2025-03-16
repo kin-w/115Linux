@@ -34,5 +34,6 @@ sleep 2;
 pcmanfm --desktop &
 # 启动 115 浏览器
 /usr/local/115Browser/115.sh
-# 启动 tint2 任务栏，设置 G_SLICE 环境变量以避免内存碎片问题
-G_SLICE=always-malloc tint2
+
+# 启动 tint2 任务栏
+tint2
