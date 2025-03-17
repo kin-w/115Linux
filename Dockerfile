@@ -35,7 +35,7 @@ RUN apt update \
     # 创建 noVNC 和 websockify 的目录结构
     && mkdir -p "${NO_VNC_HOME}/utils/websockify" \
     # 下载并解压 noVNC 和 websockify https://github.com/novnc/noVNC/releases & https://github.com/novnc/websockify/releases
-    && wget -qO- "https://github.com/kin-w/115Linux/releases/download/package/noVNC-1.6.0.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}" \
+    && wget -qO- "https://github.com/novnc/noVNC/archive/v1.6.0-beta.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}" \
     && wget -qO- "https://github.com/kin-w/115Linux/releases/download/package/websockify-0.13.0.tar.gz" | tar xz --strip 1 -C "${NO_VNC_HOME}/utils/websockify" \
     # 使 noVNC 代理可执行
     && chmod +x -v "${NO_VNC_HOME}/utils/novnc_proxy" \
