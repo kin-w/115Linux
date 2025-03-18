@@ -61,8 +61,7 @@ RUN apt update \
     && chmod +x jq-linux-amd64 \
     && mv jq-linux-amd64 /usr/bin/jq \
     # 获取 115 浏览器的最新版本号
-    # && export VERSION=`curl -s https://appversion.115.com/1/web/1.0/api/getMultiVer | jq '.data["Linux-115chrome"].version_code'  | tr -d '"'` \
-    && export VERSION=`curl -s https://github.com/kin-w/115Linux/blob/main/getMultiVer.js | jq '.data["Linux-115chrome"].version_code'  | tr -d '"'` \
+    && export VERSION=`curl -s https://appversion.115.com/1/web/1.0/api/getMultiVer | jq '.data["Linux-115chrome"].version_code'  | tr -d '"'` \
     # 下载并安装 115 浏览器
     && wget -q --no-check-certificate -c "https://down.115.com/client/115pc/lin/115br_v${VERSION}.deb" \
     && apt install "./115br_v${VERSION}.deb"  \
