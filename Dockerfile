@@ -60,12 +60,10 @@ RUN apt update \
     && wget -q --no-check-certificate -c https://github.com/kin-w/115Linux/releases/download/package/jq-linux-amd64 \
     && chmod +x jq-linux-amd64 \
     && mv jq-linux-amd64 /usr/bin/jq \
-    # 获取 115 浏览器的最新版本号
-    && export VERSION=`curl -s https://appversion.115.com/1/web/1.0/api/getMultiVer | jq '.data["Linux-115chrome"].version_code'  | tr -d '"'` \
     # 下载并安装 115 浏览器
-    && wget -q --no-check-certificate -c "https://down.115.com/client/115pc/lin/115br_v${VERSION}.deb" \
-    && apt install "./115br_v${VERSION}.deb"  \
-    && rm "115br_v${VERSION}.deb" \
+    && wget -q --no-check-certificate -c "https://down.115.com/client/115pc/lin/115br_v35.8.0.1.deb" \
+    && apt install "./115br_v35.8.0.1.deb"  \
+    && rm "115br_v35.8.0.1.deb" \
     # 下载并解压 115Cookie 扩展
     && wget -q --no-check-certificate -c https://github.com/kin-w/115Cookie/archive/refs/heads/master.zip \
     && unzip -j master.zip -d /usr/local/115Cookie/ \
